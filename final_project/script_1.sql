@@ -7,7 +7,8 @@ CREATE TABLE users (
     email VARCHAR(120) NOT NULL UNIQUE,
     city VARCHAR(50),
     created_at TIMESTAMP,
-    data_of_birth TIMESTAMP
+    data_of_birth TIMESTAMP,
+	picture_id INT NOT NULL
 );
 
 DROP TABLE IF EXISTS messages;

@@ -93,5 +93,6 @@ CREATE TABLE notifications (
     id SERIAL PRIMARY KEY,
     picture_id INT NOT NULL,
     description VARCHAR(250) NOT NULL,
-    created_at TIMESTAMP
+    created_at TIMESTAMP,
+	user_id INT NOT NULL
 );

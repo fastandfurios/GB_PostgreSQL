@@ -65,17 +65,16 @@ CREATE TABLE video (
     uploaded_at TIMESTAMP NOT NULL,
     size INT NOT NULL, -- from 10 to 2048 MB
     views INT,
-    duration TIMESTAMP NOT NULL
+    duration TIME NOT NULL
 );
 
 DROP TABLE IF EXISTS music;
 CREATE TABLE music (
     id SERIAL PRIMARY KEY,
-    url VARCHAR(250) NOT NULL UNIQUE,
     musician_id INT NOT NULL,
     song_title VARCHAR(120) NOT NULL,
-    duration TIMESTAMP NOT NULL,
-	size INT NOT NULL -- from 10 to 250 MB
+    duration TIME NOT NULL,
+	size INT NOT NULL -- from 10 to 1000 MB
 );
 
 DROP TABLE IF EXISTS products;

@@ -1,20 +1,21 @@
-CREATE OR REPLACE FUNCTION update_main_photo_id_trigger()
+CREATE OR REPLACE FUNCTION update_profiles_main_photo_trigger()
 RETURNS TRIGGER AS
 $$
-DECLARE is_found BOOLEAN;
+DECLARE real_owner INTEGER;
 BEGIN
-    is_found := EXISTS(SELECT user_id FROM profiles WHERE NEW.user_id = user_id AND main_photo_id ISNULL);
-    IF is_found THEN
-        NEW.main_photo_id := NULL;
+    real_owner := (SELECT owner_id FROM photo WHERE id = NEW.main_photo_id);
+    IF NEW.user_id != real_owner THEN
+        RAISE EXCEPTION 'User with ID: % has no photo from ID: %', NEW.user_id, NEW.main_photo_id;
     END IF;
     RETURN NEW;
 END
 $$
-LANGUAGE PLPGSQL;
+LANGUAGE plpgsql;
 
-CREATE TRIGGER check_main_photo_id_update BEFORE UPDATE ON profiles
+DROP TRIGGER IF EXISTS check_profiles_on_update ON profiles;
+CREATE TRIGGER check_profiles_on_update BEFORE UPDATE ON profiles
     FOR EACH ROW
-    EXECUTE FUNCTION update_main_photo_id_trigger();
+EXECUTE FUNCTION update_profiles_main_photo_trigger();
 
 SELECT user_id, main_photo_id FROM profiles WHERE user_id = 3;
 UPDATE profiles SET main_photo_id = 45 WHERE user_id = 3;

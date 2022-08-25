@@ -1,16 +1,16 @@
  -- запрос выбирает имя, фамилию пользователей и их данные о фото профиля и все это отсортированно по размеру фото
- -- коррелирующий запрос
- SELECT
-     (SELECT first_name FROM users WHERE users.id = owner_id) AS first_name,
-     (SELECT last_name FROM users WHERE users.id = owner_id) AS last_name,
-     url,
+  SELECT
+     first_name,
+     last_name,
+     url AS picture_url,
      description,
      size
-    FROM pictures
+    FROM pictures,
+         (SELECT id, first_name, last_name FROM users) AS owners
+    WHERE owner_id = owners.id
     ORDER BY size ASC;
 
--- запрос выбирает имя и фамилию пользователя, который продоет товар по самой высокой цене
--- не коррелирующий запрос
+-- запрос выбирает имя и фамилию пользователя, который продает товар по самой высокой цене
 SELECT
     first_name,
     last_name

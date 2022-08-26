@@ -14,3 +14,9 @@ $$
        COMMIT;
     END;
 $$
+
+ALTER TABLE profiles ALTER COLUMN main_photo_id DROP NOT NULL;
+
+CALL main_photo_id_cleanup();
+
+SELECT main_photo_id FROM profiles;
